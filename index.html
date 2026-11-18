@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Apa nak makan tonight?</title>
+    <meta name="description" content="A fun Malaysian dish picker that randomly chooses what to eat tonight." />
+    <meta property="og:title" content="Apa nak makan tonight?" />
+    <meta property="og:description" content="A fun Malaysian dish picker that randomly chooses what to eat tonight." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet" />
+    <style>
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      body {
+        min-height: 100dvh; display: grid; place-items: center; padding: 1.5rem;
+        font-family: 'Fredoka', system-ui, -apple-system, sans-serif;
+        background: radial-gradient(circle at top left, #fde68a, transparent 45%),
+          radial-gradient(circle at bottom right, #fbcfe8, transparent 45%), #fff7ed;
+        color: #1c1917; text-align: center;
+      }
+      main { width: 100%; max-width: 36rem; display: flex; flex-direction: column; align-items: center; gap: 1.75rem; }
+      h1 {
+        font-size: clamp(2.4rem, 7vw, 4rem); line-height: 1.08; font-weight: 700; text-wrap: balance;
+        background: linear-gradient(120deg, #ea580c, #db2777 55%, #7c3aed);
+        -webkit-background-clip: text; background-clip: text; color: transparent;
+      }
+      button {
+        font: inherit; font-size: clamp(1.2rem, 3.5vw, 1.5rem); font-weight: 600;
+        padding: 1rem 2.25rem; border: 0; border-radius: 1.25rem; cursor: pointer;
+        color: #fff; background: linear-gradient(135deg, #f97316, #e11d48);
+        box-shadow: 0 6px 0 #9f1239, 0 12px 24px rgba(225, 29, 72, 0.25);
+        transition: transform 0.14s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.14s ease;
+        touch-action: manipulation;
+      }
+      button:hover { transform: translateY(-2px); box-shadow: 0 8px 0 #9f1239, 0 16px 28px rgba(225, 29, 72, 0.3); }
+      button:active { transform: translateY(4px); box-shadow: 0 2px 0 #9f1239, 0 6px 12px rgba(225, 29, 72, 0.2); }
+      button:focus-visible { outline: 3px solid #7c3aed; outline-offset: 4px; }
+      #result {
+        min-height: 6.5rem; display: flex; flex-direction: column; align-items: center;
+        justify-content: center; gap: 0.35rem; font-size: clamp(2.2rem, 7.5vw, 3.75rem);
+        font-weight: 700; color: #9a3412; line-height: 1.15;
+      }
+      .emoji { font-size: clamp(3rem, 9vw, 4.5rem); line-height: 1; }
+      .pop { animation: pop 0.28s cubic-bezier(0.16, 1, 0.3, 1); }
+      @keyframes pop { 0% { opacity: 0; transform: scale(0.85) translateY(8px); } 100% { opacity: 1; transform: scale(1) translateY(0); } }
+      @media (prefers-reduced-motion: reduce) { .pop { animation: none; } button { transition: none; } }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Apa nak makan tonight?</h1>
+      <button id="pickBtn" type="button">Pilih untuk saya!</button>
+      <div id="result" aria-live="polite"></div>
+    </main>
+    <script>
+      const dishes = [
+        ['Nasi Lemak', '🍛'], ['Roti Canai', '🫓'], ['Laksa', '🍜'], ['Satay', '🍢'], ['Mee Goreng', '🍝'],
+        ['Cendol', '🍧'], ['Rendang', '🥘'], ['Teh Tarik', '🧋'], ['Mee Rebus', '🍲'], ['Nasi Kerabu', '🥗']
+      ];
+      const btn = document.getElementById('pickBtn');
+      const result = document.getElementById('result');
+      btn.addEventListener('click', () => {
+        const [name, emoji] = dishes[Math.floor(Math.random() * dishes.length)];
+        result.classList.remove('pop');
+        void result.offsetWidth;
+        result.innerHTML = `<span class="emoji" aria-hidden="true">${emoji}</span><span>${name}</span>`;
+        result.classList.add('pop');
+      });
+    </script>
+  </body>
+</html>
